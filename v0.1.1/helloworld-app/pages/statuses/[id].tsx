@@ -1,34 +1,57 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 
-type StatusPageProps = { id: string; lang: string }
+type StatusPageProps = { status: Status }
+
+type Status = {
+  id: string
+  body: string
+  author: string
+  createdAt: string
+}
+
+// type guard
+const isStatus = (data: unknown): data is Status => {
+  const d = data as Status
+  if (typeof d.id !== 'string') {
+    return false
+  }
+  if (typeof d.body !== 'string') {
+    return false
+  }
+  if (typeof d.author !== 'string') {
+    return false
+  }
+  if (typeof d.createdAt !== 'string') {
+    return false
+  }
+
+  return true
+}
 
 export const getServerSideProps: GetServerSideProps<StatusPageProps> = async (
   context
 ) => {
-  const { id, lang } = context.query
-
-  if (typeof id !== 'string') {
+  const res = await fetch(
+    `http://localhost:3000/api/status/getStatus?id=${context.query.id}`
+  )
+  const statusData = (await res.json()) as unknown
+  if (!isStatus(statusData)) {
     return { notFound: true }
   }
-  if (typeof lang !== 'string') {
-    return { notFound: true }
-  }
 
-  return { props: { id, lang } }
+  return { props: { status: statusData } }
 }
 
 const StatusPage: NextPage<StatusPageProps> = (props) => {
-  const title = `このページのIDは${props.id}です`
   return (
     <>
       <Head>
-        <title>{title}</title>
-        <meta property="og:title" content={title} key="ogtitle" />
+        <title>{props.status.body}</title>
+        <meta property="og:title" content={props.status.body} key="ogtitle" />
       </Head>
-      <p>
-        このページのIDは{props.id}で言語は{props.lang}です
-      </p>
+      <h1>{props.status.body}</h1>
+      <p>{props.status.author}</p>
     </>
   )
 }
