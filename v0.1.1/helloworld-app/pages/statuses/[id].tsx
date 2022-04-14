@@ -21,6 +21,7 @@ export const getServerSideProps: GetServerSideProps<StatusPageProps> = async (
 const StatusPage: NextPage<StatusPageProps> = (props) => {
   const title = `このページのIDは${props.id}です`
   return (
+    <>
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} key="ogtitle" />
@@ -28,6 +29,7 @@ const StatusPage: NextPage<StatusPageProps> = (props) => {
       <p>
         このページのIDは{props.id}で言語は{props.lang}です
       </p>
+    </>
   )
 }
 
