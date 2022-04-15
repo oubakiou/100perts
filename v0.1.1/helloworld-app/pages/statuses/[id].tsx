@@ -1,3 +1,4 @@
+import { MediumRectangleDummyBanner } from '@/atoms/banners/MediumRectangleDummy'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 
@@ -52,6 +53,7 @@ const StatusPage: NextPage<StatusPageProps> = (props) => {
       </Head>
       <h1>{props.status.body}</h1>
       <p>{props.status.author}</p>
+      <MediumRectangleDummyBanner />
     </>
   )
 }
