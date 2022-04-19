@@ -1,6 +1,7 @@
-import { MediumRectangleDummyBanner } from '@/atoms/banners/MediumRectangleDummy'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
+import { BirdHouseLayout } from '@/atoms/layouts/BirdHouseLayout'
+import { StatusCard } from '@/moleclues/StatusCard'
 
 type StatusPageProps = { status: Status }
 
@@ -44,18 +45,16 @@ export const getServerSideProps: GetServerSideProps<StatusPageProps> = async (
   return { props: { status: statusData } }
 }
 
-const StatusPage: NextPage<StatusPageProps> = (props) => {
-  return (
+const StatusPage: NextPage<StatusPageProps> = (props) => (
+  <BirdHouseLayout>
     <>
       <Head>
         <title>{props.status.body}</title>
         <meta property="og:title" content={props.status.body} key="ogtitle" />
       </Head>
-      <h1>{props.status.body}</h1>
-      <p>{props.status.author}</p>
-      <MediumRectangleDummyBanner />
+      <StatusCard {...props.status} linkEnabled={false} />
     </>
-  )
-}
+  </BirdHouseLayout>
+)
 
 export default StatusPage
