@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<StatusPageProps> = async (
   context
 ) => {
   const res = await fetch(
-    `http://localhost:3000/api/status/getStatus?id=${context.query.id}`
+    `https://us-central1-helloworld-dbb3c.cloudfunctions.net/nextjsFunc/api/status/getStatus?id=${context.query.id}`
   )
   const statusData = (await res.json()) as unknown
   if (!isStatus(statusData)) {
