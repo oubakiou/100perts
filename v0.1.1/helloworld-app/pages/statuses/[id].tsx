@@ -42,6 +42,14 @@ export const getServerSideProps: GetServerSideProps<StatusPageProps> = async (
     return { notFound: true }
   }
 
+  const m = 60
+  const h = 60 * m
+  const d = 24 * h
+  context.res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${10 * m}, stale-while-revalidate=${30 * d}`
+  )
+
   return { props: { status: statusData } }
 }
 
