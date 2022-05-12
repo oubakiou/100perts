@@ -9,6 +9,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const typeDefs: Config['typeDefs'] = gql`
   type Query {
     statuses: [Status]!
+    status(id: ID!): Status
   }
 
   type Status {
@@ -25,9 +26,14 @@ const resolvers: Config['resolvers'] = {
     statuses() {
       return listStatuses()
     },
+    status(_parent, args) {
+      return getStatus(args?.id) ?? null
+    },
   },
 }
 const listStatuses = (): Status[] => statuses
+const getStatus = (id: string): Status | undefined =>
+  statuses.find((d) => d.id === id)
 
 // ハードコーディングされたデータ
 type Status = { id: string; body: string; author: string; createdAt: string }
