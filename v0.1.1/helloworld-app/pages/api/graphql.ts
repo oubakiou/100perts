@@ -10,6 +10,7 @@ const typeDefs: Config['typeDefs'] = gql`
   type Query {
     statuses: [Status]!
     status(id: ID!): Status
+    banners(groupId: ID): [Banner]!
   }
 
   type Status {
@@ -23,6 +24,12 @@ const typeDefs: Config['typeDefs'] = gql`
     id: ID!
     name: String!
   }
+
+  type Banner {
+    id: ID!
+    groupId: String!
+    href: String
+  }
 `
 
 // スキーマを実際に動作させるリゾルバー(実装)
@@ -33,6 +40,9 @@ const resolvers: Config['resolvers'] = {
     },
     status(_parent, args) {
       return getStatus(args?.id) ?? null
+    },
+    banners(_parent, args) {
+      return listBanners(args.groupId)
     },
   },
   Status: {
@@ -46,6 +56,8 @@ const getStatus = (id: string): Status | undefined =>
   statuses.find((d) => d.id === id)
 const getAuthor = (id: string): Author | undefined =>
   authors.find((a) => a.id === id)
+const listBanners = (groupId: string): Banner[] =>
+  banners.filter((b) => b.groupId === groupId)
 
 // ハードコーディングされたデータ
 type Status = { id: string; body: string; authorId: string; createdAt: string }
@@ -69,6 +81,24 @@ const authors: Author[] = [
   {
     id: '1',
     name: 'jack',
+  },
+]
+
+type Banner = {
+  id: string
+  groupId: string
+  href: string | null
+}
+const banners: Banner[] = [
+  {
+    id: '2',
+    groupId: '1',
+    href: null,
+  },
+  {
+    id: '1',
+    groupId: '1',
+    href: null,
   },
 ]
 
