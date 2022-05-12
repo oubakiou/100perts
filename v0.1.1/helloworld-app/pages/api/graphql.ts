@@ -15,8 +15,13 @@ const typeDefs: Config['typeDefs'] = gql`
   type Status {
     id: String!
     body: String!
-    author: String!
+    author: Author!
     createdAt: String!
+  }
+
+  type Author {
+    id: ID!
+    name: String!
   }
 `
 
@@ -36,18 +41,25 @@ const getStatus = (id: string): Status | undefined =>
   statuses.find((d) => d.id === id)
 
 // ハードコーディングされたデータ
-type Status = { id: string; body: string; author: string; createdAt: string }
+type Status = { id: string; body: string; author: Author; createdAt: string }
+type Author = { id: string; name: string }
 const statuses: Status[] = [
   {
     id: '2',
     body: 'inviting coworkers',
-    author: 'jack',
+    author: {
+      id: '1',
+      name: 'jack',
+    },
     createdAt: new Date(2021, 4, 2).toISOString(),
   },
   {
     id: '1',
     body: 'just setting up my app',
-    author: 'jack',
+    author: {
+      id: '1',
+      name: 'jack',
+    },
     createdAt: new Date(2021, 4, 1).toISOString(),
   },
 ]
