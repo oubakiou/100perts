@@ -7,7 +7,7 @@ type Query {
 type Status {
   id: ID!
   body: String!
-  author: Author!
+  author: Author
   createdAt: String!
 }
 

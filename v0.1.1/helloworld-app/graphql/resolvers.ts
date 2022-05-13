@@ -1,7 +1,7 @@
-import { Config } from 'apollo-server-micro'
+import { Resolvers } from './generated/resolvers-types'
 
 // スキーマを実際に動作させるリゾルバー(実装)
-export const resolvers: Config['resolvers'] = {
+export const resolvers: Resolvers = {
   Query: {
     statuses() {
       return listStatuses()
@@ -15,7 +15,7 @@ export const resolvers: Config['resolvers'] = {
   },
   Status: {
     author: (parent) => {
-      return getAuthor(parent.authorId)
+      return getAuthor(parent.authorId) ?? null
     },
   },
 }
@@ -32,7 +32,12 @@ const listBanners = (groupId: string): Banner[] =>
   banners.filter((b) => b.groupId === groupId)
 
 // ハードコーディングされたデータ
-type Status = { id: string; body: string; authorId: string; createdAt: string }
+export type Status = {
+  id: string
+  body: string
+  authorId: string
+  createdAt: string
+}
 const statuses: Status[] = [
   {
     id: '2',
@@ -48,7 +53,7 @@ const statuses: Status[] = [
   },
 ]
 
-type Author = { id: string; name: string }
+export type Author = { id: string; name: string }
 const authors: Author[] = [
   {
     id: '1',

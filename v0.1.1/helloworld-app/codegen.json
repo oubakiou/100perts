@@ -1,0 +1,15 @@
+{
+  "generates": {
+    "./graphql/generated/resolvers-types.ts": {
+      "schema": "./graphql/typeDefs.graphql",
+      "config": {
+        "mapperTypeSuffix": "Ts",
+        "mappers": {
+          "Status": "../resolvers#Status",
+          "Author": "../resolvers#Author"
+        }
+      },
+      "plugins": ["typescript", "typescript-resolvers"]
+    }
+  }
+}
