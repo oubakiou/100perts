@@ -1,0 +1,23 @@
+type Query {
+  status(id: ID!): Status
+  statuses: [Status]!
+  banners(groupId: ID!): [Banner]!
+}
+
+type Status {
+  id: ID!
+  body: String!
+  author: Author!
+  createdAt: String!
+}
+
+type Author {
+  id: ID!
+  name: String!
+}
+
+type Banner {
+  id: ID!
+  groupId: ID!
+  href: String
+}
