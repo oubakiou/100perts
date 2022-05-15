@@ -4,7 +4,7 @@ import {
   ApolloServerPluginLandingPageDisabled,
 } from 'apollo-server-core'
 import { NextApiRequest, NextApiResponse } from 'next'
-import typeDefs from 'graphql/typeDefs.graphql'
+import typeDefs from 'graphql/schema/typeDefs.graphql'
 import { resolvers } from 'graphql/resolvers'
 
 // Next.jsのAPI Routeの設定

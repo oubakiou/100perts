@@ -15,12 +15,14 @@ export type Scalars = {
   Float: number;
 };
 
+/** 作者 */
 export type Author = {
   __typename?: 'Author';
   id: Scalars['ID'];
   name: Scalars['String'];
 };
 
+/** バナー */
 export type Banner = {
   __typename?: 'Banner';
   groupId: Scalars['ID'];
@@ -28,6 +30,7 @@ export type Banner = {
   id: Scalars['ID'];
 };
 
+/** Query */
 export type Query = {
   __typename?: 'Query';
   banners: Array<Maybe<Banner>>;
@@ -36,15 +39,18 @@ export type Query = {
 };
 
 
+/** Query */
 export type QueryBannersArgs = {
   groupId: Scalars['ID'];
 };
 
 
+/** Query */
 export type QueryStatusArgs = {
   id: Scalars['ID'];
 };
 
+/** つぶやき */
 export type Status = {
   __typename?: 'Status';
   author?: Maybe<Author>;

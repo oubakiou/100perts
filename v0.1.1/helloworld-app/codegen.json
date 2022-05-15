@@ -1,7 +1,7 @@
 {
   "generates": {
     "./graphql/generated/resolvers-types.ts": {
-      "schema": "./graphql/typeDefs.graphql",
+      "schema": "./graphql/schema/typeDefs.graphql",
       "config": {
         "mapperTypeSuffix": "Ts",
         "mappers": {
@@ -10,6 +10,10 @@
         }
       },
       "plugins": ["typescript", "typescript-resolvers"]
+    },
+    "./graphql/generated/schema.graphql": {
+      "schema": "http://localhost:3000/api/graphql",
+      "plugins": ["schema-ast"]
     }
   }
 }

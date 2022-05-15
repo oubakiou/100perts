@@ -1,0 +1,27 @@
+"""作者"""
+type Author {
+  id: ID!
+  name: String!
+}
+
+"""バナー"""
+type Banner {
+  groupId: ID!
+  href: String
+  id: ID!
+}
+
+"""Query"""
+type Query {
+  banners(groupId: ID!): [Banner]!
+  status(id: ID!): Status
+  statuses: [Status]!
+}
+
+"""つぶやき"""
+type Status {
+  author: Author
+  body: String!
+  createdAt: String!
+  id: ID!
+}

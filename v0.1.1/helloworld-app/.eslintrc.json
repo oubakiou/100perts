@@ -3,5 +3,22 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["./graphql/operations/**/*.graphql"],
+      "parserOptions": {
+        "operations": "./graphql/operations/**/*.graphql",
+        "schema": "./graphql/generated/schema.graphql"
+      },
+      "extends": "plugin:@graphql-eslint/operations-recommended"
+    },
+    {
+      "files": ["./graphql/schema/**/*.graphql"],
+      "parserOptions": {
+        "schema": "./graphql/schema/**/*.graphql"
+      },
+      "extends": "plugin:@graphql-eslint/schema-recommended"
+    }
   ]
 }
