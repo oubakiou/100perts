@@ -1,38 +1,31 @@
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import Head from 'next/head'
-import { Box } from '@mui/material'
+import { Backdrop, Box, CircularProgress, Typography } from '@mui/material'
 import { BirdHouseLayout } from '@/atoms/layouts/BirdHouseLayout'
 import { StatusCard } from '@/moleclues/StatusCard'
+import { useHomePagePropsQuery } from 'graphql/generated/operations'
 
-type HomePageProps = {
-  statuses: Status[]
-}
+const HomePage: NextPage = () => {
+  const { loading, error, data } = useHomePagePropsQuery({
+    variables: { bannerGroupId: '1' },
+  })
 
-type Status = {
-  id: string
-  body: string
-  author: string
-  createdAt: string
-}
-
-const isStatuses = (data: unknown): data is Status[] => {
-  // 内緒だよ
-  return true
-}
-
-export const getServerSideProps: GetServerSideProps<
-  HomePageProps
-> = async () => {
-  const res = await fetch(`${process.env.API_ROOT}/api/status/listStatuses`)
-  const statusesData = (await res.json()) as unknown
-  if (!isStatuses(statusesData)) {
-    return { notFound: true }
+  if (loading) {
+    return (
+      <Backdrop open={true}>
+        <CircularProgress />
+      </Backdrop>
+    )
   }
 
-  return { props: { statuses: statusesData } }
-}
+  if (error) {
+    return (
+      <Backdrop open={true}>
+        <Typography>エラーが発生しました</Typography>
+      </Backdrop>
+    )
+  }
 
-const HomePage: NextPage<HomePageProps> = ({ statuses }) => {
   return (
     <BirdHouseLayout currentRouteName="home">
       <>
@@ -40,11 +33,17 @@ const HomePage: NextPage<HomePageProps> = ({ statuses }) => {
           <title>最新ステータス</title>
           <meta property="og:title" content="最新ステータス" key="ogtitle" />
         </Head>
-        {statuses.map((s) => (
-          <Box key={s.id} pb={2}>
-            <StatusCard {...s} />
-          </Box>
-        ))}
+        {data?.statuses.map(
+          (status) =>
+            status && (
+              <Box key={status.id} pb={2}>
+                <StatusCard
+                  {...status}
+                  author={status.author?.name ?? 'John Doe'}
+                />
+              </Box>
+            )
+        )}
       </>
     </BirdHouseLayout>
   )

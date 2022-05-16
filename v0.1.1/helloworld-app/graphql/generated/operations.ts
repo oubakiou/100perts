@@ -59,6 +59,13 @@ export type Status = {
   id: Scalars['ID'];
 };
 
+export type HomePagePropsQueryVariables = Exact<{
+  bannerGroupId: Scalars['ID'];
+}>;
+
+
+export type HomePagePropsQuery = { __typename?: 'Query', statuses: Array<{ __typename?: 'Status', id: string, body: string, createdAt: string, author?: { __typename?: 'Author', id: string, name: string } | null } | null>, banners: Array<{ __typename?: 'Banner', id: string, href?: string | null } | null> };
+
 export type StatusPagePropsQueryVariables = Exact<{
   statusId: Scalars['ID'];
   bannerGroupId: Scalars['ID'];
@@ -68,6 +75,51 @@ export type StatusPagePropsQueryVariables = Exact<{
 export type StatusPagePropsQuery = { __typename?: 'Query', status?: { __typename?: 'Status', id: string, body: string, createdAt: string, author?: { __typename?: 'Author', id: string, name: string } | null } | null, banners: Array<{ __typename?: 'Banner', id: string, href?: string | null } | null> };
 
 
+export const HomePagePropsDocument = gql`
+    query HomePageProps($bannerGroupId: ID!) {
+  statuses {
+    id
+    body
+    author {
+      id
+      name
+    }
+    createdAt
+  }
+  banners(groupId: $bannerGroupId) {
+    id
+    href
+  }
+}
+    `;
+
+/**
+ * __useHomePagePropsQuery__
+ *
+ * To run a query within a React component, call `useHomePagePropsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomePagePropsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomePagePropsQuery({
+ *   variables: {
+ *      bannerGroupId: // value for 'bannerGroupId'
+ *   },
+ * });
+ */
+export function useHomePagePropsQuery(baseOptions: Apollo.QueryHookOptions<HomePagePropsQuery, HomePagePropsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HomePagePropsQuery, HomePagePropsQueryVariables>(HomePagePropsDocument, options);
+      }
+export function useHomePagePropsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomePagePropsQuery, HomePagePropsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HomePagePropsQuery, HomePagePropsQueryVariables>(HomePagePropsDocument, options);
+        }
+export type HomePagePropsQueryHookResult = ReturnType<typeof useHomePagePropsQuery>;
+export type HomePagePropsLazyQueryHookResult = ReturnType<typeof useHomePagePropsLazyQuery>;
+export type HomePagePropsQueryResult = Apollo.QueryResult<HomePagePropsQuery, HomePagePropsQueryVariables>;
 export const StatusPagePropsDocument = gql`
     query StatusPageProps($statusId: ID!, $bannerGroupId: ID!) {
   status(id: $statusId) {

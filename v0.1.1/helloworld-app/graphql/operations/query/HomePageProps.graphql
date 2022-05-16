@@ -1,0 +1,15 @@
+query HomePageProps($bannerGroupId: ID!) {
+  statuses {
+    id
+    body
+    author {
+      id
+      name
+    }
+    createdAt
+  }
+  banners(groupId: $bannerGroupId) {
+    id
+    href
+  }
+}

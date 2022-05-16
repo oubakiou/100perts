@@ -10,6 +10,8 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import createEmotionCache from 'src/createEmotionCache'
 import { Theme } from 'src/theme'
+import { ApolloProvider } from '@apollo/client'
+import { apolloClient } from 'graphql/apollo-client'
 
 type MyAppProps = AppPropsType & { emotionCache?: EmotionCache }
 export type MyAppType = NextComponentType<
@@ -24,16 +26,18 @@ const clientSideEmotionCache = createEmotionCache()
 const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={Theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </CacheProvider>
+    <ApolloProvider client={apolloClient}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={Theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
+    </ApolloProvider>
   )
 }
 
