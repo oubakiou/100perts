@@ -30,7 +30,7 @@ export type Banner = {
   id: Scalars['ID'];
 };
 
-/** Query */
+/** クエリーの一覧 */
 export type Query = {
   __typename?: 'Query';
   banners: Array<Maybe<Banner>>;
@@ -39,13 +39,13 @@ export type Query = {
 };
 
 
-/** Query */
+/** クエリーの一覧 */
 export type QueryBannersArgs = {
   groupId: Scalars['ID'];
 };
 
 
-/** Query */
+/** クエリーの一覧 */
 export type QueryStatusArgs = {
   id: Scalars['ID'];
 };

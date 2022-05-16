@@ -12,6 +12,7 @@
     "gen": "npx graphql-codegen"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.2",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.9.0",
     "@emotion/server": "^11.4.0",
@@ -29,6 +30,8 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/schema-ast": "^2.4.1",
     "@graphql-codegen/typescript": "^2.4.11",
+    "@graphql-codegen/typescript-operations": "^2.4.0",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.14",
     "@graphql-codegen/typescript-resolvers": "^2.6.4",
     "@graphql-eslint/eslint-plugin": "^3.10.3",
     "@types/node": "17.0.23",

@@ -11,7 +11,7 @@ type Banner {
   id: ID!
 }
 
-"""Query"""
+"""クエリーの一覧"""
 type Query {
   banners(groupId: ID!): [Banner]!
   status(id: ID!): Status
