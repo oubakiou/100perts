@@ -43,6 +43,7 @@
     "eslint-config-prettier": "^8.5.0",
     "firebase-tools": "^10.7.1",
     "prettier": "^2.6.2",
+    "prisma": "^3.14.0",
     "typescript": "4.6.3"
   }
 }
