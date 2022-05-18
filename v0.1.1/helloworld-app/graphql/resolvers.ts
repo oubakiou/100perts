@@ -1,4 +1,5 @@
 import { Resolvers } from './generated/resolvers-types'
+import { PrismaClient } from '@prisma/client'
 
 // スキーマを実際に動作させるリゾルバー(実装)
 export const resolvers: Resolvers = {
@@ -20,61 +21,31 @@ export const resolvers: Resolvers = {
   },
 }
 
-const listStatuses = (): Status[] => statuses
+const prisma = new PrismaClient()
 
-const getStatus = (id: string): Status | undefined =>
-  statuses.find((d) => d.id === id)
+const listStatuses = async () => {
+  const statuses = await prisma.status.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
 
-const getAuthor = (id: string): Author | undefined =>
-  authors.find((a) => a.id === id)
-
-const listBanners = (groupId: string): Banner[] =>
-  banners.filter((b) => b.groupId === groupId)
-
-// ハードコーディングされたデータ
-export type Status = {
-  id: string
-  body: string
-  authorId: string
-  createdAt: string
+  return statuses.map((status) => ({
+    ...status,
+    createdAt: status.createdAt?.toISOString(),
+  }))
 }
-const statuses: Status[] = [
-  {
-    id: '2',
-    authorId: '1',
-    body: 'inviting coworkers',
-    createdAt: new Date(2021, 4, 2).toISOString(),
-  },
-  {
-    id: '1',
-    authorId: '1',
-    body: 'just setting up my app',
-    createdAt: new Date(2021, 4, 1).toISOString(),
-  },
-]
 
-export type Author = { id: string; name: string }
-const authors: Author[] = [
-  {
-    id: '1',
-    name: 'jack',
-  },
-]
+const getStatus = async (id: string) => {
+  const status = await prisma.status.findUnique({ where: { id: id } })
 
-type Banner = {
-  id: string
-  groupId: string
-  href: string | null
+  return { ...status, createdAt: status?.createdAt?.toISOString() }
 }
-const banners: Banner[] = [
-  {
-    id: '2',
-    groupId: '1',
-    href: null,
-  },
-  {
-    id: '1',
-    groupId: '1',
-    href: null,
-  },
-]
+const getAuthor = (id: string) => prisma.user.findUnique({ where: { id: id } })
+
+const listBanners = async (groupId: string) => {
+  const banners = await prisma.banner.findMany({
+    where: { bannerGroupId: groupId },
+  })
+
+  // bannerGroupIdをgroupIdというフィールド名でマッピング
+  return banners.map((banner) => ({ ...banner, groupId: banner.bannerGroupId }))
+}
