@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Status` MODIFY `body` MEDIUMTEXT NOT NULL;

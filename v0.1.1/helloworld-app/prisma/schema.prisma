@@ -18,7 +18,7 @@ model Status {
   id        String    @id @default(cuid())
   author    User      @relation(fields: [authorId], references: [id])
   authorId  String
-  body      String
+  body      String    @db.MediumText
   createdAt DateTime? @default(now())
 }
 
