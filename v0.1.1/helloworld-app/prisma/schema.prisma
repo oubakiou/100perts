@@ -1,11 +1,38 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime? @default(now())
+  Status    Status[]
+}
+
+model Status {
+  id        String    @id @default(cuid())
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  body      String
+  createdAt DateTime? @default(now())
+}
+
+model BannerGroup {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime? @default(now())
+  Banner    Banner[]
+}
+
+model Banner {
+  id            String      @id @default(cuid())
+  bannerGroup   BannerGroup @relation(fields: [bannerGroupId], references: [id])
+  bannerGroupId String
+  href          String?
+  createdAt     DateTime?   @default(now())
 }
