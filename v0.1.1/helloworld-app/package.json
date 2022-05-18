@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "main": "firebaseFunctions.js",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "npm run gen && next build",
@@ -45,6 +48,7 @@
     "firebase-tools": "^10.7.1",
     "prettier": "^2.6.2",
     "prisma": "^3.14.0",
+    "ts-node": "^10.7.0",
     "typescript": "4.6.3"
   }
 }
